@@ -101,7 +101,7 @@ function processDraft_(today, deadline) {
   const body = msg.getPlainBody();
   let payload;
   try {
-    payload = parsePayload_(body, today);
+    payload = parsePayload_(draftPayloadText_(msg, 'AXKAKAO1'), today);
   } catch (e) {
     finish_(draft, msg, body, today, '실패', { error: '메시지 점검 실패: ' + e.message });
     return;
@@ -870,7 +870,7 @@ function setup() {
   ScriptApp.newTrigger('tick').timeBased().everyMinutes(1).create();
   let key = P.getProperty('OWNER_KEY');
   if (!key) { key = Utilities.getUuid().replace(/-/g, '').slice(0, 16); P.setProperty('OWNER_KEY', key); }
-  console.log('REST API 키: ' + (key_('KAKAO_REST_API_KEY') ? '저장됨' : '없음 — CONFIG에 넣고 다시 실행'));
+  console.log('REST API 키: ' + (key_('KAKAO_REST_API_KEY') ? '저장됨' : '없음 — 프로젝트 설정 > 스크립트 속성에 넣고 다시 실행'));
   GmailApp.getDrafts(); // Gmail 권한 확인
   const url = redirectUri_();
   console.log('1분 트리거 설치 완료');
