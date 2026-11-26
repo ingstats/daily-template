@@ -704,6 +704,11 @@ function doGet(e) {
     try {
       const ownerKey = P.getProperty('OWNER_KEY');
       if (ownerKey && q.state === 'owner:' + ownerKey) {
+        if (!scopes_(t.access_token).talk) {
+          return page_('동의 항목이 빠졌습니다',
+            '<b>카카오톡 메시지 전송</b>에 동의해야 담당자 알림·시험 메시지를 받을 수 있습니다. 아래 버튼을 눌러 동의 화면에서 그 항목을 꼭 선택해 주세요.',
+            authorizeUrl_('owner:' + ownerKey, 'talk_message'), '다시 동의하기');
+        }
         P.setProperty('OWNER_REFRESH_TOKEN', t.refresh_token);
         P.setProperty('OWNER_REFRESHED_AT', new Date().toISOString());
         P.deleteProperty('OWNER_ID');
